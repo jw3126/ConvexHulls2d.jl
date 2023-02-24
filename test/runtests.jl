@@ -78,6 +78,20 @@ end
     @test CH.vertices(h) == [pts[1], pts[3], pts[4], pts[2]]
 end
 
+@testset "ConvexHull square Float32" begin
+    pts = [
+        Float32[0.0, 0.0],
+        Float32[0.0, 1.0],
+        Float32[1.0, 0.0],
+        Float32[1.0, 1.0],
+    ]
+    p1,p2,p3,p4 = pts
+    h = @inferred CH.ConvexHull(pts)
+    @test @inferred(CH.area(h)               ) isa Float32
+    @test @inferred(CH.circumference(h)      ) isa Float32
+    @test @inferred(CH.signed_distance(h, p1)) isa Float32
+    @test @inferred(CH.signed_distance(h, p1)) isa Float32
+end
 
 @testset "ConvexHull diamond" begin
     pts = [[0,0], [1,1], [1,-1], [2,0]]
