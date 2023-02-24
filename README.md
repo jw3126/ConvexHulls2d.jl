@@ -25,6 +25,7 @@ scatter!(h, label="vertices", color=:red)
 axislegend()
 fap
 ```
+![image](https://user-images.githubusercontent.com/7261506/221288722-fda37e04-a452-428b-ba0a-0aff1352dbc3.png)
 
 # Alternatives
 There are many packages in julia capapable of computing convex hulls. Some examples are:
