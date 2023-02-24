@@ -80,10 +80,10 @@ end
 
 @testset "ConvexHull square Float32" begin
     pts = [
-        Float32[0.0, 0.0],
-        Float32[0.0, 1.0],
-        Float32[1.0, 0.0],
-        Float32[1.0, 1.0],
+        @SVector(Float32[0.0, 0.0]),
+        @SVector(Float32[0.0, 1.0]),
+        @SVector(Float32[1.0, 0.0]),
+        @SVector(Float32[1.0, 1.0]),
     ]
     p1,p2,p3,p4 = pts
     h = @inferred CH.ConvexHull(pts)
@@ -91,6 +91,10 @@ end
     @test @inferred(CH.circumference(h)      ) isa Float32
     @test @inferred(CH.signed_distance(h, p1)) isa Float32
     @test @inferred(CH.signed_distance(h, p1)) isa Float32
+    @test @allocated(CH.area(h)               ) == 0
+    @test @allocated(CH.circumference(h)      ) == 0
+    @test @allocated(CH.signed_distance(h, p1)) == 0
+    @test @allocated(CH.signed_distance(h, p1)) == 0
 end
 
 @testset "ConvexHull diamond" begin
