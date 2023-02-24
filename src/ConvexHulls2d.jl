@@ -9,6 +9,9 @@ end
 function vertices(h::ConvexHull)
     view(h.points, h.indices)
 end
+function nvertices(h)
+    length(h.indices)
+end
 function indices(h::ConvexHull)
     h.indices
 end
@@ -83,9 +86,13 @@ function distance_edge_point(p1, p2, p)
 end
 
 function signed_distance(h::ConvexHull, p::AbstractVector)
+    T = numtype(h)
+    if nvertices(h) == 1
+        p0 = only(vertices(h))
+        return T(distance(p0, p))
+    end
     has_ccw = false
     has_cw = false
-    T = numtype(h)
     outside_dist = T(Inf)
     inside_dist = T(Inf)
     @foreachedge (p1, p2) h begin

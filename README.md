@@ -11,5 +11,7 @@ Zero denpendency convex hulls in 2d.
 There are many packages in julia capapable of computing convex hulls. Some examples are:
 * [LazySet](https://github.com/JuliaReach/LazySets.jl)
 * [QHull](https://github.com/JuliaPolyhedra/QHull.jl)
-* [QHull](https://github.com/gridap/MiniQhull.jl)
-All of these packages offer much more than this package.
+* [MiniQHull](https://github.com/gridap/MiniQhull.jl)
+* [LibGEOS](https://github.com/JuliaGeo/LibGEOS.jl)
+All of these packages offer much more than this package, however they are more heavy depependencies.
+Also this package is faster then most of them for small to medium numbers of points.

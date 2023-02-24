@@ -1,3 +1,4 @@
+module RunTests
 using ConvexHulls2d
 import ConvexHulls2d as CH
 using Test
@@ -26,6 +27,7 @@ end
 end
 
 function test_hull(h; atol=0)
+    @test allunique(h.indices)
     for pt in h.points
         @test CH.signed_distance(h, pt) <= atol
     end
@@ -86,59 +88,58 @@ end
     @test CH.distance(@SVector[1,0.99999], h) == 0
     @test CH.distance(@SVector[1,1.000001], h) > 0
 end
-#
-#@testset "ConvexHull duplicate points" begin
-#    pts = [
-#        [-9.892169405717053e-7, -1.5874977989795982],
-#        [1.5874985415154759, 0.0],
-#        [-9.892169405717053e-7, -1.5874977989795983],
-#        [0.24833866271737112, -1.5679550911531746],
-#    ]
-#    h = ConvexHull(pts)
-#    @test circumference(h) ≈ norm(pts[1] - pts[2]) +
-#        norm(pts[4] - pts[2]) +
-#        norm(pts[4] - pts[1])
-#    for pt in pts
-#        @test isinside(pt, h)
-#    end
-#    @test allunique(h.indices)
-#end
-#
-#@testset "ConvexHull duplicate points 2" begin
-#    pts = [
-#        [1.5874995012976747, 0.0],
-#        [-5.838217168722755e-7, 1.5874995095689919],
-#        [0.03589953217296475, 1.58709324677428],
-#        [-5.838217168722755e-7, 1.5874995095689919],
-#        [1.5855872826713822, 0.07789421068418088],
-#    ]
-#
-#    h = ConvexHull(pts)
-#    @test circumference(h) ≈ norm(pts[2] - pts[1]) +
-#        norm(pts[1] - pts[5]) +
-#        norm(pts[5] - pts[3]) +
-#        norm(pts[3] - pts[4]) +
-#        norm(pts[4] - pts[2])
-#    for pt in pts
-#        @test isinside(pt, h)
-#    end
-#    @test allunique(h.indices)
-#end
-#
-#@testset "ConvexHull fuzz" begin
-#    rng = MersenneTwister(1337)
-#    for _ in 1:100
-#        npts = rand(rng, 2:50)
-#        pts = [SVector(randn(rng, 2)...) for _ in 1:npts]
-#        h = ConvexHull(pts)
-#        for pt in pts
-#            # if !isinside(pt, h)
-#            #     foreach(println, pts)
-#            #     error()
-#            # end
-#            @test isinside(pt, h)
-#        end
-#        @test !isinside(@SVector[0,10], h)
-#        @test allunique(h.indices)
-#    end
-#end
+
+@testset "ConvexHull duplicate points" begin
+    pts = [
+        [-9.892169405717053e-7, -1.5874977989795982],
+        [1.5874985415154759, 0.0],
+        [-9.892169405717053e-7, -1.5874977989795983],
+        [0.24833866271737112, -1.5679550911531746],
+    ]
+    h = CH.ConvexHull(pts)
+    test_hull(h)
+    @test CH.circumference(h) ≈ norm(pts[1] - pts[2]) +
+        norm(pts[4] - pts[2]) +
+        norm(pts[4] - pts[1])
+end
+
+@testset "ConvexHull duplicate points 2" begin
+    pts = [
+        [1.5874995012976747, 0.0],
+        [-5.838217168722755e-7, 1.5874995095689919],
+        [0.03589953217296475, 1.58709324677428],
+        [-5.838217168722755e-7, 1.5874995095689919],
+        [1.5855872826713822, 0.07789421068418088],
+    ]
+
+    h = CH.ConvexHull(pts)
+    test_hull(h)
+    @test CH.circumference(h) ≈ norm(pts[2] - pts[1]) +
+        norm(pts[1] - pts[5]) +
+        norm(pts[5] - pts[3]) +
+        norm(pts[3] - pts[4]) +
+        norm(pts[4] - pts[2])
+end
+
+@testset "ConvexHull fuzz" begin
+    rng = MersenneTwister(1337)
+    for _ in 1:100
+        # without duplicates
+        npts = rand(rng, 2:50)
+        pts = [SVector(randn(rng, 2)...) for _ in 1:npts]
+        h = @inferred CH.ConvexHull(pts)
+        test_hull(h)
+    end
+    for _ in 1:100
+        # with duplicates
+        npts = rand(rng, 2:50)
+        all_pts = [SVector(randn(rng, 2)...) for _ in 1:npts]
+        inds = rand(rng, 1:length(all_pts), npts)
+        pts = all_pts[inds]
+        h = CH.ConvexHull(pts)
+        test_hull(h)
+        @test allunique(CH.vertices(h))
+    end
+end
+
+end#module
