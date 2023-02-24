@@ -1,0 +1,3 @@
+[deps]
+ConvexHulls2d = "438b5665-92b0-42e6-bc36-e4ac8449fa2d"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
