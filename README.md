@@ -7,6 +7,25 @@
 
 Zero dependency convex hulls in 2d.
 
+# Usage
+```julia
+using ConvexHulls2d
+pts = [randn(2) for _ in 1:50]
+h = CH.ConvexHull(pts)
+CH.area(h)
+CH.circumference(h)
+CH.vertices(h) # corner points that span the convex hull
+CH.indices(h)  # indices of the corner points as elements of pts
+
+using GLMakie # requires >= julia 1.9
+
+fap = scatter(first.(pts), last.(pts), label="points", color=:blue)
+lines!(h, label="ConvexHull", color=:red)
+scatter!(h, label="vertices", color=:red)
+axislegend()
+fap
+```
+
 # Alternatives
 There are many packages in julia capapable of computing convex hulls. Some examples are:
 * [LazySet](https://github.com/JuliaReach/LazySets.jl)
