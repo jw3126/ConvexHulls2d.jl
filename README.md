@@ -31,7 +31,6 @@ fap
 There are many packages in julia capapable of computing convex hulls. Some examples are:
 * [LazySet](https://github.com/JuliaReach/LazySets.jl)
 * [QHull](https://github.com/JuliaPolyhedra/QHull.jl)
-* [MiniQHull](https://github.com/gridap/MiniQhull.jl)
 * [LibGEOS](https://github.com/JuliaGeo/LibGEOS.jl)
 
 All of these packages offer much more than this package, however they are more heavy depependencies.
