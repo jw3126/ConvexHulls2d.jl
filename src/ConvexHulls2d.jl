@@ -51,11 +51,13 @@ macro foreachedge(edgename, h, code)
     end
 end
 
-# TODO distance2
-function distance(p1::AbstractVector, p2::AbstractVector)
+function distance2(p1::AbstractVector, p2::AbstractVector)
     x1,y1 = p1
     x2,y2 = p2
-    return sqrt((x1-x2)^2 + (y1-y2)^2)
+    return (x1-x2)^2 + (y1-y2)^2
+end
+function distance(p1::AbstractVector, p2::AbstractVector)
+    return sqrt(distance2(p1,p2))
 end
 
 function distance(h::ConvexHull, pt::AbstractVector)
@@ -75,6 +77,15 @@ function circumference(h::ConvexHull)
         ret += distance(p1, p2)
     end
     return ret
+end
+
+function area(h::ConvexHull)
+    pt = first(vertices(h))
+    area2 = zero(numtype(h))
+    @foreachedge (p1, p2) h begin
+        area2 += edge_function(p1, p2, pt)
+    end
+    return abs(area2/2)
 end
 
 function distance_edge_point(p1, p2, p)
@@ -159,13 +170,8 @@ function new_key!(out, key_new, pts, i0)
     return out
 end
 
-function isless_graham(pt1, pt2)
-    # (pt1[1] < pt2[1]) || (pt1[2] < pt2[2])
-    <(pt1, pt2)
-end
-
 function graham_scan(pts)
-    keys = sortperm(pts)#, lt=isless_graham)
+    keys = sortperm(pts)
     out = Int[]
     for key in keys
         new_key!(out, key, pts, 0)

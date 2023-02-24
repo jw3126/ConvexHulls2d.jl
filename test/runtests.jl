@@ -13,7 +13,7 @@ import Random: MersenneTwister
     @test edge_function([0,0], [1,0], [0,-1]) ≈ -1 atol = 1e-14
 end
 
-@testset "fuzz edge_function" begin
+@testset "edge_function fuzz" begin
     using ConvexHulls2d: edge_function
     rng = MersenneTwister(1234)
     for _ in 1:100 
@@ -55,6 +55,8 @@ end
     ]
     p1,p2,p3,p4 = pts
     h = @inferred CH.ConvexHull(pts)
+    @inferred CH.area(h)
+    @test CH.area(h) ≈ 1.0
     test_hull(h)
     @inferred CH.signed_distance(h, p1)
     @inferred CH.distance(h, p1)
@@ -81,6 +83,7 @@ end
     pts = [[0,0], [1,1], [1,-1], [2,0]]
     h = CH.ConvexHull(pts)
     test_hull(h)
+    @test CH.area(h) ≈ 2
     @test CH.circumference(h) ≈ 4*sqrt(2)
     @test CH.distance(@SVector[0,0], h) == 0
     @test CH.distance(@SVector[1,0], h) == 0
@@ -140,6 +143,10 @@ end
         test_hull(h)
         @test allunique(CH.vertices(h))
     end
+end
+
+if VERSION >= v"1.9-"
+    include("test_makie.jl")
 end
 
 end#module
