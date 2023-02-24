@@ -132,6 +132,12 @@ end
         pts = [SVector(randn(rng, 2)...) for _ in 1:npts]
         h = @inferred CH.ConvexHull(pts)
         test_hull(h)
+
+        A = randn(rng, 2,2)
+        b = randn(rng, 2)
+        pts2 = [A*pt + b for pt in pts]
+        h2 = CH.ConvexHull(pts2)
+        @test CH.area(h2) ≈ abs(det(A)) * CH.area(h)
     end
     for _ in 1:100
         # with duplicates
