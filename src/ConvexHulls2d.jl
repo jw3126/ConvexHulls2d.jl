@@ -51,7 +51,7 @@ macro foreachedge(edgename, h, code)
     end
 end
 
-
+# TODO distance2
 function distance(p1::AbstractVector, p2::AbstractVector)
     x1,y1 = p1
     x2,y2 = p2

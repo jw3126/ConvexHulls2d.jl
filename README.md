@@ -5,7 +5,7 @@
 [![Build Status](https://github.com/jw3126/ConvexHulls2d.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/jw3126/ConvexHulls2d.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/jw3126/ConvexHulls2d.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/jw3126/ConvexHulls2d.jl)
 
-Zero denpendency convex hulls in 2d.
+Zero dependency convex hulls in 2d.
 
 # Alternatives
 There are many packages in julia capapable of computing convex hulls. Some examples are:
@@ -13,5 +13,6 @@ There are many packages in julia capapable of computing convex hulls. Some examp
 * [QHull](https://github.com/JuliaPolyhedra/QHull.jl)
 * [MiniQHull](https://github.com/gridap/MiniQhull.jl)
 * [LibGEOS](https://github.com/JuliaGeo/LibGEOS.jl)
+
 All of these packages offer much more than this package, however they are more heavy depependencies.
 Also this package is faster then most of them for small to medium numbers of points.
