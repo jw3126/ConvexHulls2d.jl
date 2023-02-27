@@ -32,6 +32,8 @@ There are many packages in julia capapable of computing convex hulls. Some examp
 * [LazySet](https://github.com/JuliaReach/LazySets.jl)
 * [QHull](https://github.com/JuliaPolyhedra/QHull.jl)
 * [LibGEOS](https://github.com/JuliaGeo/LibGEOS.jl)
+* [Meshes](https://juliageometry.github.io/Meshes.jl/stable/algorithms/hulls.html)
+
 
 All of these packages offer much more than this package, however they are more heavy depependencies.
 Also this package is faster then most of them for small to medium numbers of points.
