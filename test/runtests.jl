@@ -151,11 +151,20 @@ end
         h = @inferred CH.ConvexHull(pts)
         test_hull(h)
 
+        # area equivariance
         A = randn(rng, 2,2)
         b = randn(rng, 2)
         pts2 = [A*pt + b for pt in pts]
         h2 = CH.ConvexHull(pts2)
         @test CH.area(h2) ≈ abs(det(A)) * CH.area(h)
+
+        # circumference invariance
+        s,c = sincos(rand(rng) * 2π)
+        A = @SMatrix [c s; -s c]
+        pts3 = [A*pt + b for pt in pts]
+        h3 = CH.ConvexHull(pts3)
+        @test CH.circumference(h3) ≈ CH.circumference(h)
+        @test CH.area(h3) ≈ CH.area(h)
     end
     for _ in 1:100
         # with duplicates
