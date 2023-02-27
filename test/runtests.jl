@@ -163,6 +163,14 @@ end
         all_pts = [SVector(randn(rng, 2)...) for _ in 1:npts]
         inds = rand(rng, 1:length(all_pts), npts)
         pts = all_pts[inds]
+        p_noise = rand(rng)
+        for i in eachindex(pts)
+            if rand(rng, Bool) < p_noise
+                # add noise
+                e = 10^(-16*rand(rng))
+                pts[i] += e*SVector{2}(randn(rng,2)...)
+            end
+        end
         h = CH.ConvexHull(pts)
         test_hull(h)
         @test allunique(CH.vertices(h))
